@@ -26,6 +26,31 @@ function SignUp() {
     }))
   }
 
+  const onSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      const auth = getAuth()
+      
+      const userCredential = await createUserWithEmailAndPassword
+      (
+        auth, 
+        email, 
+        password
+      )
+
+      const user =  userCredential.user
+
+      updateProfile(auth.currentUser, {
+        displayName: name
+      })
+
+      navigate('/')
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <div className="pageContainer">
@@ -36,7 +61,7 @@ function SignUp() {
         </header>
 
         <main>
-          <form>
+          <form onSubmit={onSubmit}> 
             <input 
               type="text" 
               className="nameInput" 
