@@ -113,7 +113,6 @@ function CreateListing() {
     } else {
       geolocation.lat = latitude
       geolocation.lng = longitude
-    //   console.log(latitude)
     }
 
     // Store image in firebase
