@@ -36,7 +36,38 @@ function Listing() {
 
   return (
     <main>
-      LISTING
+      <div
+        className='shareIconDiv'
+        onClick={() => {
+          navigator.clipboard.writeText(window.location.href)
+          setShareLinkCopied(true)
+          setTimeout(() => {
+            setShareLinkCopied(false)
+          }, 2000)
+        }}
+      >
+        <img src={shareIcon} alt='' />
+      </div>
+
+      {shareLinkCopied && <p className='linkCopied'>Link Copied!</p>}
+
+      <div className="listingDetails">
+      <p className='listingName'>
+          {listing.name} - {' '}
+          {listing.offer
+            ? listing.discountedPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+            : listing.regularPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} PLN
+        </p>
+        <p className='listingLocation'>{listing.location}</p>
+        <p className='listingType'>
+          For {listing.type === 'rent' ? 'Rent' : 'Sale'}
+        </p>
+      </div>
+      
     </main>
   )
 }
