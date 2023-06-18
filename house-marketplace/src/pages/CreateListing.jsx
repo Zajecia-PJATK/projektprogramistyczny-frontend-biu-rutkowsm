@@ -48,10 +48,36 @@ function CreateListing() {
 
     const onSubmit = e => {
         e.preventDefault()
+        console.log(formData)
     }
 
     const onMutate = e => {
+        let boolean = null
 
+        if(e.target.value === 'true') {
+            boolean = true
+        }
+
+        if(e.target.value === 'false') {
+            boolean = false
+        }
+
+        //Files
+        if(e.target.files) {
+            setFormData((prevState) => ({
+                ...prevState, 
+                images: e.target.files
+            }))
+        }
+
+
+        //Text/bools/nums
+        if(!e.target.files) {
+            setFormData((prevState) => ({
+                ...prevState,
+                [e.target.id]: boolean ?? e.target.value
+            }))
+        }
     }
 
     if (loading) {
@@ -254,7 +280,7 @@ function CreateListing() {
                             max='750000000'
                             required
                         />
-                        {type === 'rent' && <p className='formPriceText'>PLN</p>}
+                        <p className='formPriceText'>PLN</p>
                     </div>
 
                     {offer && (
@@ -284,7 +310,6 @@ function CreateListing() {
                                 value={priceFor}
                                 onChange={onMutate}
                                 maxLength='32'
-                                minLength='10'
                             />
                         </>
                     )}
