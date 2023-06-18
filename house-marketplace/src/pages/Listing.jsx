@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+// import { Helmet } from 'react-helmet'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/swiper-bundle.css'
+import 'swiper/css/bundle'
 import { getDoc, doc } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 import { db } from '../firebase.config'
@@ -41,6 +42,10 @@ function Listing() {
 
   return (
     <main>
+      {/* <Helmet>
+        <title>{listing.name}</title>
+      </Helmet> */}
+
       <Swiper slidesPerView={1} pagination={{ clickable: true }}>
         {listing.imgUrls.map((url, index) => (
           <SwiperSlide key={index}>
@@ -54,6 +59,7 @@ function Listing() {
           </SwiperSlide>
         ))}
       </Swiper>
+
       <div
         className='shareIconDiv'
         onClick={() => {
