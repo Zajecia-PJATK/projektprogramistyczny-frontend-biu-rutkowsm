@@ -2,10 +2,12 @@ import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify' 
 import Spinner from '../components/Spinner'
 
+
 function CreateListing() {
-    const [geolocationEnabled, setGeolocationEnabled] = useState(true)
+    const [geolocationEnabled, setGeolocationEnabled] = useState(false)
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({
         type: 'rent',
@@ -46,9 +48,41 @@ function CreateListing() {
         }
     }, [isMounted])
 
-    const onSubmit = e => {
+    const onSubmit = async (e) => {
         e.preventDefault()
-        console.log(formData)
+
+        setLoading(true)
+        
+        if(discountedPrice >= regularPrice) {
+            setLoading(false)
+            toast.error('Discounted price must be lower than regular price')
+            return
+        }
+
+        if(images.length > 6) {
+            setLoading(false)
+            toast.error('You cannot add more than 6 images')
+            return
+        }
+
+        let geolocation = {}
+        let location = {}
+
+        // gelocationEnabled always set to false - API will not work
+        if (geolocationEnabled) {
+
+            const response = await fetch(
+                `https://maps.googleapis.com/maps.api.geocode/json?address=${address}&key=AIzaSyAraiLLH6cAc0v4SF4VKeWJAKf8nHTu9Ns`
+                )
+            const data = await response.json()
+            console.log(data)
+        } else {
+            geolocation.lat = latitude
+            geolocation.lng = longitude
+            location = address
+        }
+
+        setLoading(false)
     }
 
     const onMutate = e => {
